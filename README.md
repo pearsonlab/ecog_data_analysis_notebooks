@@ -1,6 +1,6 @@
 # ecog_data_analysis_notebooks
 
-Notebooks for use in analysis pipeline for ToM Localizer and ToM and Attention (aka 2010) Task. Includes *analysis.json documents for use with ecogtools.
+Notebooks for use in analysis pipeline for ToM Localizer and ToM and Attention (aka 2010) Task (Faces, Bio Motion and Movie to be added as analysis is finished, though many of the notebooks will crossover easily with some modifications). Includes *analysis.json documents for use with ecogtools.
 
 ### These notebooks should be run in the same directory that contains patient folders.
 #### Example: 
