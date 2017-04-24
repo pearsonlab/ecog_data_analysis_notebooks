@@ -15,6 +15,6 @@ Notebooks for use in analysis pipeline for ToM Localizer and ToM and Attention (
  
 #### Image files created (from some notebooks) will be saved in new folder in patient folder (ex. patient_2002/ToM_Loc_plots/)
 
-- *All files/directories that begin with "patient" will be ignored within Github*
+- *All files/directories that begin with "patient" will be ignored within Github* 
 
 #### Notebooks added to this repository should be clean (with no extra/unused cells) and as generalizable as possible (between patients). Even with modifications to existing notebooks, do not update in repo until tidied and easy to implement for other users.
