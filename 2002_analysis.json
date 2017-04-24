@@ -1,0 +1,6 @@
+{
+  "patient_num": "2002",
+  "ecogfile": "patient_2002/john_2002.fif",
+  "trigfile": "patient_2002/2002_trigger_merged.csv",
+  "behavfilefolder": "patient_2002/behavioral_data_2002/"
+}

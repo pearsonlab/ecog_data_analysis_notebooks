@@ -1,0 +1,19 @@
+{
+  "behavfile": "ToM_Task_2010_",
+  "event_names": [
+    "quest_start",
+    "story_start",
+    "time_of_response"
+  ],
+  "event_id": {
+    "story_start": 1,
+    "mental/expected/quest_start": 4,
+    "mental/unexpected/quest_start": 5,
+    "physical/expected/quest_start": 6,
+    "physical/unexpected/quest_start": 7,
+    "mental/expected/time_of_response": 16,
+    "mental/unexpected/time_of_response": 17,
+    "physical/expected/time_of_response": 18,
+    "physical/unexpected/time_of_response": 19
+  }
+}

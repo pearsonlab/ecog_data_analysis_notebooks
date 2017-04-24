@@ -1,0 +1,16 @@
+{
+  "behavfile": "ToM_Loc_",
+  "event_names": [
+    "quest_start",
+    "story_start",
+    "time_of_resp"
+  ],
+  "event_id": {
+    "b/story_start": 1,
+    "b/quest_start": 4,
+    "b/time_of_resp": 16,
+    "p/story_start": 2,
+    "p/quest_start": 5,
+    "p/time_of_resp": 17
+  }
+}
