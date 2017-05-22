@@ -1,0 +1,16 @@
+{
+  "behavfile": "bio_motion_task_",
+  "event_names": [
+    "Direction",
+    "time_of_resp",
+    "action"
+  ],
+  "event_id": {
+    "b/Direction": 1,
+    "b/action": 4,
+    "b/time_of_resp": 16,
+    "p/Direction": 2,
+    "p/action": 5,
+    "p/time_of_resp": 17
+  }
+}
