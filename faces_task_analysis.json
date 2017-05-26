@@ -1,0 +1,17 @@
+{
+  "behavfile": "faces_task_",
+  "event_names": [
+    "mov_start",
+    "quest_start",
+    "time_of_resp"
+
+  ],
+  "event_id": {
+    "mov_start": 1,
+    "sad-neutral/quest_start": 4,
+    "happy/quest_start": 5,
+    "sad-neutral/time_of_resp": 16,
+    "happy/time_of_resp": 17
+
+  }
+}

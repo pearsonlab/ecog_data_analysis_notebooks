@@ -1,0 +1,17 @@
+{
+  "behavfile": "bio_motion_task_",
+  "event_names": [
+    "mov_start",
+    "time_of_resp"
+  ],
+  "event_id": {
+    "Direction-Control/trial_type": 1,
+    "Direction-Control/time_of_resp": 4,
+    "Direction-Bio/trial_type": 2,
+    "Direction-Bio/time_of_resp": 5,
+    "Instrumental-Control/trial_type": 11,
+    "Instrumental-Control/time_of_resp": 14,
+    "Instrumental-Bio/trial_type": 12,
+    "Instrumental-Bio/time_of_resp": 15
+  }
+}

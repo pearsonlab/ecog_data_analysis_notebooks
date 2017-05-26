@@ -5,6 +5,7 @@ import numpy as np
 import mne
 import json
 import os
+import copy
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -166,6 +167,17 @@ class Data:
         self.evoked_list.append(evoked)
 
         return evoked
+    
+    def create_evoked_single(self, condition):
+        """
+        Average across epochs for one condition of task.
+        Append to list of all evoked variables created.
+        Return evoked object.
+        """
+        evoked_single = self.epochs[condition]
+        self.evoked_list.append(evoked_single)
+
+        return evoked_single
 
     def compute_power(self, condition, **kwargs):
         """
@@ -347,6 +359,7 @@ class faces_task(Data):
                 self.events[i, 2] += 1
                 self.trig_and_behav.loc[i, "trigger"] += 1
                 
+                
 class bio_motion_task(Data):
 
     def __init__(self, patient_num):
@@ -354,7 +367,7 @@ class bio_motion_task(Data):
         Class to import and analyze data for bio_motion task.
         """
         self.patient_num = patient_num
-        self.taskname = "bio_motion"
+        self.taskname = "Bio_Motion"
 
         self.import_parameters()
         Data.__init__(self)
@@ -384,9 +397,111 @@ class bio_motion_task(Data):
         """
         Add one to trigger numbers for photograph condition
         to distinguish trigger events for MNE.
-        1, 4, 16 (belief) becomes 2, 5, 17 (photograph).
+        1 is the presentation of stimuli, 4 is a response, 16 is if there was no response.
+        I decided to include a timeout as a correct response, since there were so few anyway.
+        This function should make the following changes
+        
+        Direction + Control = 1,4
+        Direction + Bio = 2,5
+        
+        Instrumental + Control = 11,14
+        Instrumental + Bio = 12,15
         """
         for i in range(len(self.trig_and_behav)):
-            if self.trig_and_behav.loc[i, "type"] == "happy":
-                self.events[i, 2] += 1
-                self.trig_and_behav.loc[i, "trigger"] += 1
+            if self.trig_and_behav.loc[i, "trial_type"] == "Direction":
+                if self.trig_and_behav.loc[i, "cpu_trigger_time"] != "timeout":  
+                    if "Control_" in self.trig_and_behav.loc[i, "action"]:
+                        self.events[i, 2] += 0
+                        self.trig_and_behav.loc[i, "trigger"] += 0
+                    if "Control_" not in self.trig_and_behav.loc[i, "action"]:
+                        self.events[i, 2] += 1
+                        self.trig_and_behav.loc[i, "trigger"] += 1
+                elif self.trig_and_behav.loc[i, "cpu_trigger_time"] == "timeout": 
+                    self.events[i, 2] == 0
+                    self.trig_and_behav.loc[i, "trigger"] == 0
+
+                    
+            elif self.trig_and_behav.loc[i, "trial_type"] == "Instrumental":
+                if self.trig_and_behav.loc[i, "cpu_trigger_time"] != "timeout":  
+                    if "Control_" in self.trig_and_behav.loc[i, "action"]:
+                        self.events[i, 2] += 10
+                        self.trig_and_behav.loc[i, "trigger"] += 10
+                    if "Control_" not in self.trig_and_behav.loc[i, "action"]:
+                        self.events[i, 2] += 11
+                        self.trig_and_behav.loc[i, "trigger"] += 11
+                elif self.trig_and_behav.loc[i, "cpu_trigger_time"] == "timeout": 
+                    self.events[i, 2] == 0
+                    self.trig_and_behav.loc[i, "trigger"] == 0
+                
+class bio_motion_task_nocontrol(Data):
+
+    def __init__(self, patient_num):
+        """
+        Class to import and analyze data for bio_motion task.
+        """
+        self.patient_num = patient_num
+        self.taskname = "Bio_Motion"
+
+        self.import_parameters()
+        Data.__init__(self)
+
+        self.set_triggers()
+
+    def import_parameters(self):
+        """
+        Parameters are .json files saved in
+        ecog_data_analysis for specific patients
+        and specific tasks. They are imported and
+        used as attributes that are passed to class.
+        """
+        filepath = self.patient_num + "_analysis.json"
+        with open(filepath) as fp:
+            parameters = json.load(fp)
+
+        with open("bio_motion_analysis_nocontrol.json") as fp:
+            parameters_task = json.load(fp)
+
+        parameters_task["behavfile"] = parameters["behavfilefolder"]+parameters_task["behavfile"]+parameters["patient_num"]+".json"
+        parameters_task.update(parameters)
+
+        self.parameters = parameters_task
+
+    def set_triggers(self):
+        """
+        Add one to trigger numbers for photograph condition
+        to distinguish trigger events for MNE.
+        1 is the presentation of stimuli, 4 is a response, 16 is if there was no response.
+        I decided to include a timeout as a correct response, since there were so few anyway.
+        This function should make the following changes
+
+        Direction + Control = 1,4
+        Direction + Bio = 2,5
+
+        Instrumental + Control = 11,14
+        Instrumental + Bio = 12,15
+        """
+        for i in range(len(self.trig_and_behav)):
+            if self.trig_and_behav.loc[i, "trial_type"] == "Direction":
+                if self.trig_and_behav.loc[i, "cpu_trigger_time"] != "timeout":  
+                    if "Control_" in self.trig_and_behav.loc[i, "action"]:
+                        self.events[i, 2] += 0
+                        self.trig_and_behav.loc[i, "trigger"] += 0
+                    if "Control_" not in self.trig_and_behav.loc[i, "action"]:
+                        self.events[i, 2] += 1
+                        self.trig_and_behav.loc[i, "trigger"] += 1
+                elif self.trig_and_behav.loc[i, "cpu_trigger_time"] == "timeout": 
+                    self.events[i, 2] == 0
+                    self.trig_and_behav.loc[i, "trigger"] == 0
+
+
+            elif self.trig_and_behav.loc[i, "trial_type"] == "Instrumental":
+                if self.trig_and_behav.loc[i, "cpu_trigger_time"] != "timeout":  
+                    if "Control_" in self.trig_and_behav.loc[i, "action"]:
+                        self.events[i, 2] += 10
+                        self.trig_and_behav.loc[i, "trigger"] += 10
+                    if "Control_" not in self.trig_and_behav.loc[i, "action"]:
+                        self.events[i, 2] += 11
+                        self.trig_and_behav.loc[i, "trigger"] += 11
+                elif self.trig_and_behav.loc[i, "cpu_trigger_time"] == "timeout": 
+                    self.events[i, 2] == 0
+                    self.trig_and_behav.loc[i, "trigger"] == 0
