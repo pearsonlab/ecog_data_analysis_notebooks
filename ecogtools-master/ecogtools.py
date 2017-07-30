@@ -408,30 +408,20 @@ class bio_motion_task(Data):
         Instrumental + Bio = 12,15
         """
         for i in range(len(self.trig_and_behav)):
-            if self.trig_and_behav.loc[i, "trial_type"] == "Direction":
-                if self.trig_and_behav.loc[i, "cpu_trigger_time"] != "timeout":  
-                    if "Control_" in self.trig_and_behav.loc[i, "action"]:
-                        self.events[i, 2] += 0
-                        self.trig_and_behav.loc[i, "trigger"] += 0
-                    if "Control_" not in self.trig_and_behav.loc[i, "action"]:
-                        self.events[i, 2] += 1
-                        self.trig_and_behav.loc[i, "trigger"] += 1
-                elif self.trig_and_behav.loc[i, "cpu_trigger_time"] == "timeout": 
-                    self.events[i, 2] == 0
-                    self.trig_and_behav.loc[i, "trigger"] == 0
-
-                    
-            elif self.trig_and_behav.loc[i, "trial_type"] == "Instrumental":
-                if self.trig_and_behav.loc[i, "cpu_trigger_time"] != "timeout":  
-                    if "Control_" in self.trig_and_behav.loc[i, "action"]:
-                        self.events[i, 2] += 10
-                        self.trig_and_behav.loc[i, "trigger"] += 10
-                    if "Control_" not in self.trig_and_behav.loc[i, "action"]:
-                        self.events[i, 2] += 11
-                        self.trig_and_behav.loc[i, "trigger"] += 11
-                elif self.trig_and_behav.loc[i, "cpu_trigger_time"] == "timeout": 
-                    self.events[i, 2] == 0
-                    self.trig_and_behav.loc[i, "trigger"] == 0
+            if self.trig_and_behav.loc[i, "bio_control"] == 0:
+                if self.trig_and_behav.loc[i, "color"] == "(0, 100, 0)":  
+                    self.events[i, 2] += 0
+                    self.trig_and_behav.loc[i, "trigger"] += 0
+                if self.trig_and_behav.loc[i, "color"] == "(255, 0, 0)":  
+                    self.events[i, 2] += 1
+                    self.trig_and_behav.loc[i, "trigger"] += 1
+            if self.trig_and_behav.loc[i, "bio_control"] == 1:
+                if self.trig_and_behav.loc[i, "color"] == "(0, 100, 0)":  
+                    self.events[i, 2] -= 2
+                    self.trig_and_behav.loc[i, "trigger"] -=2
+                if self.trig_and_behav.loc[i, "color"] == "(255, 0, 0)":  
+                    self.events[i, 2] -= 1
+                    self.trig_and_behav.loc[i, "trigger"] -=1
                 
 class bio_motion_task_nocontrol(Data):
 

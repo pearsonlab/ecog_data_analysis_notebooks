@@ -1,0 +1,6 @@
+{
+  "patient_num": "2010",
+  "ecogfile": "patient_2010/biomotion.edf",
+  "trigfile": "patient_2010/2010_trigger_ecog.csv",
+  "behavfilefolder": "patient_2010/behavioral_data_2010/"
+}
